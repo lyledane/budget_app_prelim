@@ -23,6 +23,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  syncfusion_flutter_datepicker: ^18.4.44-beta
+  flutter_bloc: ^6.1.2
 
 
   # The following adds the Cupertino Icons font to your application.
