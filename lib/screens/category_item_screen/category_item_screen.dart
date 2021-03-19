@@ -1,3 +1,4 @@
+import 'package:budget_app_prelimm/constants/style.dart';
 import 'package:budget_app_prelimm/screens/category_item_screen/widgets/item_list.dart';
 import 'package:budget_app_prelimm/screens/category_item_screen/widgets/item_radialchart.dart';
 import 'package:flutter/material.dart';
@@ -34,12 +35,15 @@ class _CategoryItemScreenState extends State<CategoryItemScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kColorTransparent,
       body: SafeArea(
         child: Container(
           width: double.infinity,
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [],
+              colors: darkMode == true
+                  ? [kColorDarkModeBG, kColorDarkModeBG, kColorDarkModeBG]
+                  : [kColorViolet1, kColorViolet1, kColorViolet2],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),
@@ -52,11 +56,17 @@ class _CategoryItemScreenState extends State<CategoryItemScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 30),
-                    Text('sample Text'),
+                    Text(
+                      widget.categoryName,
+                      style: kSubText.copyWith(
+                        color: kColorWhite,
+                        fontSize: 21,
+                      ),
+                    ),
                     SizedBox(height: 18),
                     ItemRadialChart(
                       categoryAmountLimit: widget.categoryLimit,
-                      color: darkMode == true ? Colors.white : Colors.black,
+                      color: darkMode == true ? kColorWhite : kColorViolet1,
                     ),
                     SizedBox(height: 30),
                   ],
