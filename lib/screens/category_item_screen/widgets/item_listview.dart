@@ -1,7 +1,5 @@
-import 'package:budget_app_prelimm/constants/apps_router.dart';
 import 'package:budget_app_prelimm/constants/style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -35,9 +33,12 @@ class _ItemListViewState extends State<ItemListView> {
             actionExtentRatio: 0.25,
             secondaryActions: [],
             child: ListTile(
-              title: Text('sampletext'),
+              title: Text(
+                'title',
+                style: kCategoryItemTitle,
+              ),
               subtitle: Text(
-                'sampleText',
+                'subtitle',
                 style: kSubText,
               ),
               trailing: Text('trailing'),
