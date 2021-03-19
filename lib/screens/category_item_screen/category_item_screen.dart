@@ -1,5 +1,6 @@
+import 'package:budget_app_prelimm/screens/category_item_screen/widgets/item_list.dart';
+import 'package:budget_app_prelimm/screens/category_item_screen/widgets/item_radialchart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class CategoryItemScreen extends StatefulWidget {
@@ -49,9 +50,19 @@ class _CategoryItemScreenState extends State<CategoryItemScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 27),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [],
+                  children: [
+                    SizedBox(height: 30),
+                    Text('sample Text'),
+                    SizedBox(height: 18),
+                    ItemRadialChart(
+                      categoryAmountLimit: widget.categoryLimit,
+                      color: darkMode == true ? Colors.white : Colors.black,
+                    ),
+                    SizedBox(height: 30),
+                  ],
                 ),
               ),
+              ItemList(),
             ],
           ),
         ),
