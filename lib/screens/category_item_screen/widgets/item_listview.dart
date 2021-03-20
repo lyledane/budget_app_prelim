@@ -1,5 +1,5 @@
+import 'package:budget_app_prelimm/constants/style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -23,6 +23,7 @@ class _ItemListViewState extends State<ItemListView> {
     return Expanded(
       child: ListView.builder(
         padding: EdgeInsets.all(7),
+        itemCount: 0,
         itemBuilder: (context, index) {
           return Slidable(
             key: Key('$index'),
@@ -32,9 +33,15 @@ class _ItemListViewState extends State<ItemListView> {
             actionExtentRatio: 0.25,
             secondaryActions: [],
             child: ListTile(
-              title: Text('Title text'),
-              subtitle: Text('subTitle text'),
-              trailing: Text('Trailing'),
+              title: Text(
+                'title',
+                style: kCategoryItemTitle,
+              ),
+              subtitle: Text(
+                'subtitle',
+                style: kSubText,
+              ),
+              trailing: Text('trailing'),
             ),
           );
         },
