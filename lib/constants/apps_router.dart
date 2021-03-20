@@ -1,5 +1,6 @@
 import 'package:budget_app_prelimm/screens/add_edit_category_screen/add_edit_category_screen.dart';
 import 'package:budget_app_prelimm/screens/add_edit_item_screen/add_edit_item_screen.dart';
+import 'package:budget_app_prelimm/screens/calendar_screen/calendar_screen.dart';
 import 'package:budget_app_prelimm/screens/category_item_screen/category_item_screen.dart';
 import 'package:budget_app_prelimm/screens/main_screen/main_screen.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ class AppRouter {
   static const String categoryItemScreen = '/categoryItemScreen';
   static const String addEditCategorySCreen = '/addEditCategorySCreen';
   static const String addEditItemScreen = '/addEditItemScreen';
+  static const String calendarScreen = '/calendarScreen';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     Map args = settings.arguments;
@@ -26,6 +28,10 @@ class AppRouter {
       case addEditItemScreen:
         return MaterialPageRoute(
           builder: (_) => AddEditItemScreen(),
+        );
+      case calendarScreen:
+        return MaterialPageRoute(
+          builder: (_) => CalendarScreen(),
         );
       default:
         return MaterialPageRoute(
