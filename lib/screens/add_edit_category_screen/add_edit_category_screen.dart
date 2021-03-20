@@ -1,4 +1,4 @@
-import 'package:budget_app_prelimm/constants/style.dart';
+import 'package:budget_app_prelimm/global_widgets/custom_input_field.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -57,15 +57,6 @@ class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
         child: Container(
           height: MediaQuery.of(context).size.height,
           width: double.infinity,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: darkMode == true
-                  ? [kColorDarkModeBG, kColorDarkModeBG, kColorDarkModeBG]
-                  : [kColorViolet1, kColorViolet1, kColorViolet2],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 27),
             child: Form(
@@ -74,6 +65,31 @@ class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(height: 20),
+                  CustomInputField(
+                    textController: categoryNameTextController,
+                    hintText: 'Add a category',
+                    validator: (value) {},
+                  ),
+                  CustomInputField(
+                    padding: EdgeInsets.symmetric(vertical: 15),
+                    textController: categoryLimitTextController,
+                    keyboardType: TextInputType.number,
+                    hintText: 'Add a limit',
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Category limit is required.';
+                      } else if (value is String) {
+                        try {
+                          double.parse(value);
+                          return null;
+                        } catch (err) {
+                          return 'Category limit only accepts number.';
+                        }
+                      }
+                      return null;
+                    },
+                  ),
                   SizedBox(height: 20),
                 ],
               ),

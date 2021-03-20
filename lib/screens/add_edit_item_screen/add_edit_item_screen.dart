@@ -1,6 +1,7 @@
 import 'package:budget_app_prelimm/constants/style.dart';
+import 'package:budget_app_prelimm/global_widgets/back_button.dart';
+import 'package:budget_app_prelimm/global_widgets/custom_input_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class AddEditItemScreen extends StatefulWidget {
@@ -32,6 +33,7 @@ class _AddEditItemScreenState extends State<AddEditItemScreen> {
   PickerDateRange initialSelectedRange;
   DateTime startDate;
   DateTime endDate;
+
   bool darkMode = false;
 
   Future<void> submitOnPressed() async {
@@ -42,13 +44,13 @@ class _AddEditItemScreenState extends State<AddEditItemScreen> {
           builder: (BuildContext context) {
             return AlertDialog(
               title: Text(
-                'Update',
+                'Update sample',
                 style: kCategoryItemTitle.copyWith(
                   color: kColorBlack,
                 ),
               ),
               content: Text(
-                'Are you sure you want to update [SampleItem] from item list?',
+                'Are you sure you want to update [item] from item list?',
                 style: kCategoryItemTitle.copyWith(
                   color: kColorBlack,
                   fontWeight: FontWeight.w400,
@@ -84,45 +86,105 @@ class _AddEditItemScreenState extends State<AddEditItemScreen> {
     itemNameTextController = TextEditingController();
     itemAmountTextController = TextEditingController();
     dateSpentTextController = TextEditingController();
+
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-  }
-}
-
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    body: SafeArea(
-      child: SingleChildScrollView(
-        child: Container(
-          width: double.infinity,
-          height: MediaQuery.of(context).size.height,
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 27,
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: darkMode == true
+                    ? [kColorDarkModeBG, kColorDarkModeBG, kColorDarkModeBG]
+                    : [kColorViolet1, kColorViolet1, kColorViolet2],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
             ),
-            child: Form(
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20, bottom: 20),
-                    child: Text(
-                      'Edit or Add Choice',
-                      style: ktitleHeader,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 27,
+              ),
+              child: Form(
+                key: formKey,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    BackButtonWidget(),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20, bottom: 20),
+                      child: Text(
+                        widget.isEdit ? 'Edit Item' : 'Add Item',
+                        style: ktitleHeader,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 20),
-                ],
+                    CustomInputField(
+                      textController: itemNameTextController,
+                      hintText: 'Add an item here',
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Item name is required.';
+                        }
+                        return null;
+                      },
+                    ),
+                    CustomInputField(
+                      textController: itemAmountTextController,
+                      keyboardType: TextInputType.name,
+                      hintText: 'Add spent amount',
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Spent amount is required.';
+                        } else if (value is String) {
+                          try {
+                            print(value);
+                            double spentAmount = double.parse(value);
+                            print(widget.categoryLimit);
+
+                            if (spentAmount > widget.categoryLimit) {
+                              return 'Your desired amount is over the limit.';
+                            } else {
+                              return null;
+                            }
+                          } catch (err) {
+                            print(err.toString());
+                            return 'Spent amount only accepts number.';
+                          }
+                        }
+
+                        return null;
+                      },
+                    ),
+                    CustomInputField(
+                      readOnly: true,
+                      textController: dateSpentTextController,
+                      hintText: 'Select date of spending',
+                      prefixIcon: Icon(Icons.calendar_today),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Date of spending is required.';
+                        }
+
+                        return null;
+                      },
+                      onTap: () {},
+                    ),
+                    SizedBox(height: 20),
+                  ],
+                ),
               ),
             ),
           ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }
