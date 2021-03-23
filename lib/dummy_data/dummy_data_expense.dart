@@ -1,0 +1,81 @@
+import 'package:budget_app_prelimm/models/item.dart';
+
+List<Item> dummyDataItem = [
+  Item(
+    id: 0,
+    categoryId: 0,
+    itemName: 'Piattos',
+    itemAmount: 12,
+    dateSpent: DateTime.now().toString(),
+  ),
+  Item(
+    id: 1,
+    categoryId: 1,
+    itemName: 'Couch',
+    itemAmount: 12,
+    dateSpent: DateTime.now().subtract(Duration(days: 4)).toString(),
+  ),
+  Item(
+    id: 2,
+    categoryId: 2,
+    itemName: 'Lunch Money',
+    itemAmount: 12,
+    dateSpent: DateTime.now().toString(),
+  ),
+  Item(
+    id: 3,
+    categoryId: 0,
+    itemName: 'Chippy',
+    itemAmount: 13,
+    dateSpent: DateTime.now().subtract(Duration(days: 1)).toString(),
+  ),
+  Item(
+    id: 4,
+    categoryId: 1,
+    itemName: 'Chair',
+    itemAmount: 12,
+    dateSpent: DateTime.now().subtract(Duration(days: 5)).toString(),
+  ),
+  Item(
+    id: 5,
+    categoryId: 2,
+    itemName: 'Mapeh payment',
+    itemAmount: 12,
+    dateSpent: DateTime.now().subtract(Duration(days: 2)).toString(),
+  ),
+  Item(
+    id: 6,
+    categoryId: 0,
+    itemName: 'Piattos',
+    itemAmount: 14,
+    dateSpent: DateTime.now().subtract(Duration(days: 3)).toString(),
+  ),
+  Item(
+    id: 7,
+    categoryId: 1,
+    itemName: 'Table',
+    itemAmount: 12,
+    dateSpent: DateTime.now().subtract(Duration(days: 7)).toString(),
+  ),
+  Item(
+    id: 8,
+    categoryId: 2,
+    itemName: 'Flute',
+    itemAmount: 12,
+    dateSpent: DateTime.now().subtract(Duration(days: 3)).toString(),
+  ),
+  Item(
+    id: 9,
+    categoryId: 0,
+    itemName: 'Piattos',
+    itemAmount: 15,
+    dateSpent: DateTime.now().subtract(Duration(days: 4)).toString(),
+  ),
+  Item(
+    id: 10,
+    categoryId: 1,
+    itemName: 'Figurine',
+    itemAmount: 12,
+    dateSpent: DateTime.now().subtract(Duration(days: 8)).toString(),
+  ),
+];
