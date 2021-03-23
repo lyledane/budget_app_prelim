@@ -23,6 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  fl_chart: ^0.12.3
   syncfusion_flutter_datepicker: ^18.4.44-beta
   flutter_bloc: ^6.1.2
   flutter_slidable: ^0.5.7
