@@ -1,3 +1,4 @@
+import 'package:budget_app_prelimm/constants/style.dart';
 import 'package:flutter/material.dart';
 
 class SettingsButton extends StatelessWidget {
@@ -14,6 +15,7 @@ class SettingsButton extends StatelessWidget {
       padding: EdgeInsets.only(top: 20),
       child: Container(
         decoration: BoxDecoration(
+          color: kColorWhite.withOpacity(0.40),
           borderRadius: BorderRadius.circular(6),
         ),
         child: IconButton(
@@ -21,6 +23,7 @@ class SettingsButton extends StatelessWidget {
           icon: Icon(
             Icons.settings,
             size: 30,
+            color: kColorWhite,
           ),
         ),
       ),
