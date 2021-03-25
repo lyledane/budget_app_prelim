@@ -14,25 +14,39 @@ class AppRouter {
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     Map args = settings.arguments;
+
     switch (settings.name) {
       case mainScreen:
         return MaterialPageRoute(builder: (_) => MainScreen());
       case categoryItemScreen:
         return MaterialPageRoute(
-          builder: (_) => CategoryItemScreen(),
+          builder: (_) => CategoryItemScreen(
+            databaseService: args['databaseService'],
+            categoryId: args['categoryId'],
+            categoryName: args['categoryName'],
+            categoryLimit: args['categoryLimit'],
+          ),
+        );
+      case addEditCategorySCreen:
+        return MaterialPageRoute(
+          builder: (_) => AddEditCategoryScreen(
+            databaseService: args['databaseService'],
+            isEdit: args['isEdit'],
+            category: args['category'],
+          ),
         );
       case addEditItemScreen:
         return MaterialPageRoute(
-          builder: (_) => AddEditCategoryScreen(),
-        );
-      case addEditItemScreen:
-        return MaterialPageRoute(
-          builder: (_) => AddEditItemScreen(),
+          builder: (_) => AddEditItemScreen(
+            databaseService: args['databaseService'],
+            categoryId: args['categoryId'],
+            categoryLimit: args['categoryLimit'],
+            isEdit: args['isEdit'],
+            item: args['item'],
+          ),
         );
       case calendarScreen:
-        return MaterialPageRoute(
-          builder: (_) => CalendarScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => CalendarScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
