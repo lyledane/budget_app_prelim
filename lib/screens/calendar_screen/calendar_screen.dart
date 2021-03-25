@@ -1,5 +1,8 @@
+import 'package:budget_app_prelimm/bloc/cubit/dark_mode_cubit/dark_mode_cubit.dart';
+import 'package:budget_app_prelimm/bloc/cubit/selected_range_cubit/selected_range_cubit.dart';
 import 'package:budget_app_prelimm/constants/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -57,6 +60,20 @@ class _CalendarScreenState extends State<CalendarScreen> {
   @override
   void initState() {
     _controller = DateRangePickerController();
+
+    var srs = BlocProvider.of<SelectedRangeCubit>(context).state;
+    if (srs is SelectedRangeSaved) {
+      startDate = DateTime.parse(srs.startDate);
+      endDate = DateTime.parse(srs.endDate);
+
+      initialSelectedRange = PickerDateRange(startDate, endDate);
+    }
+
+    var dm = BlocProvider.of<DarkModeCubit>(context).state;
+    if (dm is DarkModeSuccess) {
+      darkMode = dm.isDarkModeEnabled;
+    }
+
     super.initState();
   }
 
@@ -73,7 +90,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              BlocProvider.of<SelectedRangeCubit>(context).saveSelectedRange(
+                startDate: _controller.selectedRange.startDate.toString(),
+                endDate: _controller.selectedRange.endDate.toString(),
+              );
+            },
             icon: Icon(Icons.save),
           )
         ],
