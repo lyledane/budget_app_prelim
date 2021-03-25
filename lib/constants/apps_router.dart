@@ -1,8 +1,8 @@
-import 'package:budgets_app/screens/add_edit_category_screen/add_edit_category_screen.dart';
-import 'package:budgets_app/screens/add_edit_item_screen/add_edit_item_screen.dart';
-import 'package:budgets_app/screens/calendar_screen/calendar_screen.dart';
-import 'package:budgets_app/screens/category_item_screen/category_item_screen.dart';
-import 'package:budgets_app/screens/main_screen/main_screen.dart';
+import 'package:budget_app_prelimm/screens/add_edit_category_screen/add_edit_category_screen.dart';
+import 'package:budget_app_prelimm/screens/add_edit_item_screen/add_edit_item_screen.dart';
+import 'package:budget_app_prelimm/screens/calendar_screen/calendar_screen.dart';
+import 'package:budget_app_prelimm/screens/category_item_screen/category_item_screen.dart';
+import 'package:budget_app_prelimm/screens/main_screen/main_screen.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {
