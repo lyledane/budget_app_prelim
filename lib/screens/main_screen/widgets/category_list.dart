@@ -2,39 +2,29 @@ import 'package:budget_app_prelimm/constants/style.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-class ItemList extends StatefulWidget {
-  final double categoryLimit;
-
-  const ItemList({
+class CategoryList extends StatefulWidget {
+  const CategoryList({
     Key key,
-    this.categoryLimit,
   }) : super(key: key);
 
   @override
-  _ItemListState createState() => _ItemListState();
+  _CategoryListState createState() => _CategoryListState();
 }
 
-class _ItemListState extends State<ItemList> {
+class _CategoryListState extends State<CategoryList> {
   PickerDateRange initialSelectedRange;
   DateTime startDate;
   DateTime endDate;
-
   bool darkMode = false;
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.29,
+        height: MediaQuery.of(context).size.height * 0.35,
         width: double.infinity,
         decoration: BoxDecoration(
-          color: darkMode == true ? kColorDarkModeSurface : kColorWhite,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
@@ -46,7 +36,7 @@ class _ItemListState extends State<ItemList> {
             Padding(
               padding: EdgeInsets.all(20.0),
               child: Text(
-                'Items',
+                'Categories',
                 style: kCategoryTitle.copyWith(
                   color: darkMode == true ? kColorWhite : null,
                 ),
