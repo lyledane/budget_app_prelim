@@ -1,5 +1,8 @@
 import 'package:budget_app_prelimm/models/category.dart';
 import 'package:budget_app_prelimm/models/item.dart';
+import 'package:budget_app_prelimm/services/bar_graph_service.dart';
+import 'package:budget_app_prelimm/services/text_formatter.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:sqflite/sqflite.dart';
 
 final String categoryTable = 'categories_tbl';
@@ -63,6 +66,107 @@ class DatabaseService {
   }
 
   /* Get all categories */
+  Future<List<BarChartGroupData>> getBarGraphData({
+    String startDate,
+    String endDate,
+  }) async {
+    final BarGraphService barGraphService = BarGraphService();
+    final TextFormatter textFormatter = TextFormatter();
+
+    String tmpDay;
+    double tmpItemAmount = 0.0;
+    String daySpent;
+    double limit = 0.0;
+    double sum = 0.0;
+
+    List<BarChartGroupData> _data = [];
+
+    var dbInstance = await this.database;
+    var result = await dbInstance.rawQuery('''
+      SELECT t1.*, t2.category_limit FROM $itemsTable t1 INNER JOIN $categoryTable t2 
+      ON t1.category_id = t2.id
+      WHERE date(t1.date_spent) 
+      BETWEEN '${startDate.split(' ')[0]}' AND '${endDate.split(' ')[0]}'
+      GROUP BY t1.id ORDER BY t1.id DESC
+      ''');
+
+    /* Loop all the records of the result */
+    print('GET BAR GRAPH RESULT: $result');
+
+    List<String> daysOfTheWeek = [
+      'Sun',
+      'Mon',
+      'Tue',
+      'Wed',
+      'Thu',
+      'Fri',
+      'Sat',
+    ];
+
+    daysOfTheWeek.forEach((day) {
+      print('HEY: $result');
+
+      result.forEach((element) {
+        if (element == null) {
+          return;
+        }
+
+        daySpent = textFormatter.parseDateByDay(
+          element['date_spent'],
+        );
+
+        limit = element['category_limit'];
+
+        if (daySpent != day) {
+          /* Skip iteration */
+          return;
+        } else {
+          /* Store daySpent for checking outside of this iteration */
+          tmpDay = daySpent;
+          tmpItemAmount = element['item_amount'];
+
+          if (tmpDay == daySpent) {
+            sum = sum + element['item_amount'];
+            return;
+          }
+        }
+      });
+
+      /* Checks if the stored day is not equal to 
+       * current day of iteration 
+      */
+
+      if (tmpDay != day) {
+        _data.add(barGraphService.checkIfDateSpent(
+          key: daysOfTheWeek.indexOf(day),
+          day: '',
+          referencedDay: day,
+          limit: limit,
+          spent: 0,
+        ));
+      } else if (tmpDay == daySpent) {
+        _data.add(barGraphService.checkIfDateSpent(
+          key: daysOfTheWeek.indexOf(day),
+          day: daySpent,
+          referencedDay: day,
+          limit: limit,
+          spent: sum,
+        ));
+      } else if (tmpDay != daySpent) {
+        _data.add(barGraphService.checkIfDateSpent(
+          key: daysOfTheWeek.indexOf(day),
+          day: tmpDay,
+          referencedDay: day,
+          limit: limit,
+          spent: tmpItemAmount,
+        ));
+      }
+    });
+
+    return _data;
+  }
+
+  /* Get all categories */
   Future<List<Category>> getCategories({
     String startDate,
     String endDate,
@@ -88,14 +192,20 @@ class DatabaseService {
       }
 
       /* Parse to category model */
-      /*No Code Yet */
+      Category categoryInfo = Category.fromJson(element);
+      _categories.add(categoryInfo);
     });
 
     return _categories;
   }
 
   /* Insert category */
-  /*No Code yet */
+  Future<void> insertCategory(Category category) async {
+    var dbInstance = await this.database;
+    var result = await dbInstance.insert(categoryTable, category.toMap());
+
+    print('Insert category result: $result');
+  }
 
   Future<int> checkIfCategoryExists({
     String categoryName,
@@ -121,7 +231,15 @@ class DatabaseService {
   }
 
   Future<void> updateCategory(Category category) async {
-    // var dbInstance = await this.database;
+    var dbInstance = await this.database;
+    var result = await dbInstance.update(
+      categoryTable,
+      category.toMap(),
+      where: 'id = ?',
+      whereArgs: [category.id],
+    );
+
+    print('Update category result: $result');
   }
 
   /* Insert category */
@@ -162,7 +280,8 @@ class DatabaseService {
       }
 
       /* Parse to category model */
-      /* No Code yet */
+      Item itemInfo = Item.fromJson(element);
+      _items.add(itemInfo);
     });
 
     return _items;
@@ -170,17 +289,22 @@ class DatabaseService {
 
   /* Insert category */
   Future<void> insertItem(Item item) async {
-    // var dbInstance = await this.database;
+    var dbInstance = await this.database;
+    var result = await dbInstance.insert(itemsTable, item.toMap());
+
+    print('Insert item result: $result');
   }
 
   Future<void> updateItem(Item item) async {
-    // var dbInstance = await this.database;
-    // var result = await dbInstance.update(
-    //   itemsTable,
-    //   item.toMap(),
-    //   where: 'id = ?',
-    //   whereArgs: [item.id],
-    // );
+    var dbInstance = await this.database;
+    var result = await dbInstance.update(
+      itemsTable,
+      item.toMap(),
+      where: 'id = ?',
+      whereArgs: [item.id],
+    );
+
+    print('Update item result: $result');
   }
 
   Future<void> deleteItem(int itemId) async {
